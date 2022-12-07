@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  db:
+    build: ./mysql
+    volumes:
+      - ./mysql/initdb.d/:/docker-entrypoint-initdb.d
+      - db-store:/var/lib/mysql
+    env_file:
+      - ./.env
+
+  app:
+    build: ./beego
+    command: >
+      sh -c "cd app &&
+              bee run"
+    working_dir: /go/src/github.com/app
+    volumes:
+      - ./beego:/go/src/github.com/app
+    env_file:
+      - ./.env
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+volumes:
+  db-store:
