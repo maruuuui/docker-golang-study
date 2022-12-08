@@ -16,3 +16,9 @@ docker-compose build
 docker-compose run app bee new app
 docker-compose run app sh -c "cd app && go get app"
 ```
+
+vscodeの拡張機能(Dev Containers)でbeegoのコンテナにリモート接続
+![Dev Containers](./image/拡張機能_Dev_Containers.png)
+
+コンテナ内で拡張機能(Go)をインストール。自動フォーマットなど便利機能が搭載されてる
+![Go](./image/拡張機能_Go.png)
