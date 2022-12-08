@@ -1,4 +1,5 @@
 package controllers
+// 画面を扱うコントローラ
 
 import (
 	beego "github.com/beego/beego/v2/server/web"
