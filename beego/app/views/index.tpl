@@ -95,49 +95,49 @@
     let targetId;
 
     (function() {
-            // minigridの初期設定
-            // https://github.com/hnqlv/minigrid
-            let grid;
+        // minigridの初期設定
+        // https://github.com/hnqlv/minigrid
+        let grid;
 
-            function init() {
-                grid = new Minigrid({
-                    container: '.minigrid-cards',
-                    item: '.minigrid-card',
-                    gutter: 12
-                });
-                grid.mount();
-            }
+        function init() {
+            grid = new Minigrid({
+                container: '.minigrid-cards',
+                item: '.minigrid-card',
+                gutter: 12
+            });
+            grid.mount();
+        }
 
-            function update() {
-                grid.mount();
-            }
+        function update() {
+            grid.mount();
+        }
 
-            document.addEventListener('DOMContentLoaded', init);
-            window.addEventListener('resize', update);
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('resize', update);
 
-            // ToDo追加ボタン押下時の処理
-            const createToDoButton = document.getElementById("createToDoButton");
-            createToDoButton.addEventListener("click", function() {
-                console.log("ToDo追加ボタンが押下されたよ");
+        // ToDo追加ボタン押下時の処理
+        const createToDoButton = document.getElementById("createToDoButton");
+        createToDoButton.addEventListener("click", function() {
+            console.log("ToDo追加ボタンが押下されたよ");
+        });
+
+        // ToDo完了確認ボタン押下時の処理
+        const askCompleteToDoModalButtons = document.getElementsByClassName("askCompleteToDoModalButton");
+        for (let index = 0; index < askCompleteToDoModalButtons.length; index++) {
+            const askCompleteToDoModalButton = askCompleteToDoModalButtons[index];
+            askCompleteToDoModalButton.addEventListener("click", function() {
+                targetId = askCompleteToDoModalButton.value
+                console.log(`${targetId}のToDo完了確認ボタンが押下されたよ`);
             });
 
-            // ToDo完了ボタン押下時の処理
-            const askCompleteToDoModalButtons = document.getElementsByClassName("askCompleteToDoModalButton");
-            for (let index = 0; index < askCompleteToDoModalButtons.length; index++) {
-                const askCompleteToDoModalButton = askCompleteToDoModalButtons[index];
-                askCompleteToDoModalButton.addEventListener("click", function() {
-                    targetId = askCompleteToDoModalButton.value
-                    console.log(`${targetId}のToDo完了ボタンが押下されたよ`);
-                });
+        }
 
-            }
-
-
-            // ToDo完了ボタン押下時の処理
-            const completeToDoButton = document.getElementById("completeToDoButton");
-            completeToDoButton.addEventListener("click", function() {
-                console.log(`${targetId}のToDo完了ボタンが押下されたよ`);        });
-            })();
+        // ToDo完了ボタン押下時の処理
+        const completeToDoButton = document.getElementById("completeToDoButton");
+        completeToDoButton.addEventListener("click", function() {
+            console.log(`${targetId}のToDo完了ボタンが押下されたよ`);        
+        });
+    })();
 </script>
 
 <style>
