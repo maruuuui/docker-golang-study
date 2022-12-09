@@ -13,8 +13,8 @@ type ToDoController struct {
 }
 
 func (c *ToDoController) Get() {
-	var toDoArray = models.GetAll()	
+	var toDoList = models.GetAllToDo()	
 
-	c.Data["json"] = toDoArray
+	c.Data["json"] = toDoList
 	c.ServeJSON()
 }

@@ -22,3 +22,14 @@ vscodeの拡張機能(Dev Containers)でbeegoのコンテナにリモート接�
 
 コンテナ内で拡張機能(Go)をインストール。自動フォーマットなど便利機能が搭載されてる
 ![Go](./image/拡張機能_Go.png)
+
+参考サイトメモ
+
+DB操作
+https://www.wakuwakubank.com/posts/869-go-database-sql/
+テンプレート
+https://selfnote.work/20191003/programming/golang-beego-basic1/
+bootstrap
+https://getbootstrap.com/docs/5.2/getting-started/introduction/
+minigrid
+https://github.com/hnqlv/minigrid

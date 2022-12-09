@@ -7,15 +7,20 @@ type ToDo struct {
 	Memo  string `json:"memo"`
 }
 
-// ToDoArrayタイプを作成
-type ToDoArray []ToDo
+// ToDoListタイプを作成
+type ToDoList []ToDo
 
-func GetAll() (toDoArray ToDoArray) {
- 	toDoArray = ToDoArray{
+func GetAllToDo() (toDoList ToDoList) {
+ 	toDoList = ToDoList{
 		{
 			ID:    "hogehoge",
 			Title: "ToDoのタイトルが入ります",
 			Memo:  "メモです",
+		},
+				{
+			ID:    "hugahuga",
+			Title: "ToDoのタイトルが入ります2",
+			Memo:  "メモですメモですメモですメモですメモですメモです",
 		},
 	}
     return 

@@ -2,6 +2,7 @@ package controllers
 // 画面を扱うコントローラ
 
 import (
+	"app/models"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -10,7 +11,7 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
-	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"
+
+	c.Data["toDoList"] =  models.GetAllToDo()	
 	c.TplName = "index.tpl"
 }
