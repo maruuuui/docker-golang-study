@@ -23,6 +23,13 @@ vscodeの拡張機能(Dev Containers)でbeegoのコンテナにリモート接�
 コンテナ内で拡張機能(Go)をインストール。自動フォーマットなど便利機能が搭載されてる
 ![Go](./image/拡張機能_Go.png)
 
+DB操作のため、ORM本体とmysqlのドライバをインストール
+
+go get -u gorm.io/gorm
+go get -u gorm.io/driver/mysql
+
+
+
 参考サイトメモ
 
 DB操作
