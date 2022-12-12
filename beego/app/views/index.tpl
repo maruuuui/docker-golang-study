@@ -29,6 +29,9 @@
     <link rel="stylesheet" href="static/css/tempus-dominus.css">
     <!-- end TempusDominus -->
 
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <title>ToDoアプリ</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
@@ -39,8 +42,7 @@
             <div class="container-fluid">
                 <span class="navbar-brand mb-0 h1">ToDoアプリ</span>
                 <!-- ToDo追加モーダル(#createToDoModal)を表示するボタン -->
-                <button class="btn btn-success" type="submit" data-bs-toggle="modal"
-                    data-bs-target="#createToDoModal">新規作成</button>
+                <button class="btn btn-success" id="openCreateToDoModal">新規作成</button>
             </div>
         </nav>
     </header>
@@ -58,8 +60,6 @@
                         data-bs-toggle="modal" data-bs-target="#askCompleteToDoModal">完了！</button>
                 </div>
             </div>
-            <br>
-
         </div>
         {{end}}
     </div>
@@ -77,26 +77,30 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="title mb-3">
-                        <label for="titleInput" class="form-label">タイトル</label>
-                        <input type="email" class="form-control" id="titleInput">
-                    </div>
-                    <div class="memo mb-3">
-                        <label for="memoTextarea" class="form-label">備考</label>
-                        <textarea class="form-control" id="memoTextarea" rows="3"></textarea>
-                    </div>
-                    <div class="deadline mb-3">
-                        <label for="deadlineDatetimepickerInput" class="form-label">締め切り日時</label>
-                        <div class="input-group" id="deadlineDatetimepicker" data-td-target-input="nearest"
-                            data-td-target-toggle="nearest">
-                            <input id="deadlineDatetimepickerInput" type="text" class="form-control"
-                                data-td-target="#deadlineDatetimepicker" />
-                            <span class="input-group-text" data-td-target="#deadlineDatetimepicker"
-                                data-td-toggle="datetimepicker">
-                                <span class="fa-solid fa-calendar"></span>
-                            </span>
+                    <form class="needs-validation" novalidate>
+                        <div class="title mb-3">
+                            <label for="titleInput" class="form-label">タイトル</label>
+                            <input type="text" class="form-control" id="titleInput" required>
+                            <div class="invalid-feedback"> この項目は必須です。 </div>
                         </div>
-                    </div>
+                        <div class="memo mb-3">
+                            <label for="memoTextarea" class="form-label">備考</label>
+                            <textarea class="form-control" id="memoTextarea" rows="3"></textarea>
+                        </div>
+                        <div class="deadline mb-3">
+                            <label for="deadlineDatetimepickerInput" class="form-label">締め切り日時</label>
+                            <div class="input-group" id="deadlineDatetimepicker" data-td-target-input="nearest"
+                                data-td-target-toggle="nearest">
+                                <input id="deadlineDatetimepickerInput" type="text" class="form-control"
+                                    data-td-target="#deadlineDatetimepicker" required />
+                                <span class="input-group-text" data-td-target="#deadlineDatetimepicker"
+                                    data-td-toggle="datetimepicker">
+                                    <span class="fa-solid fa-calendar"></span>
+                                </span>
+                                <div class="invalid-feedback"> この項目は必須です。 </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
 
@@ -134,11 +138,14 @@
     // 完了リクエストをするToDoのID
     let targetId;
 
+
     (function () {
+        // ToDo新規作成モーダル
+        let createToDoModal = new bootstrap.Modal(document.getElementById('createToDoModal'), {})
+
         // minigridの初期設定
         // https://github.com/hnqlv/minigrid
         let grid;
-
         function init() {
             grid = new Minigrid({
                 container: '.minigrid-cards',
@@ -147,18 +154,39 @@
             });
             grid.mount();
         }
-
         function update() {
             grid.mount();
         }
-
         document.addEventListener('DOMContentLoaded', init);
         window.addEventListener('resize', update);
+
+        // 新規作成ボタン押下時の処理
+        const openCreateToDoModal = document.getElementById("openCreateToDoModal");
+        openCreateToDoModal.addEventListener("click", function () {
+            console.log("新規作成ボタンが押下されたよ");
+            // ToDo新規作成モーダルを開く
+            createToDoModal.show()
+        })
 
         // ToDo追加ボタン押下時の処理
         const createToDoButton = document.getElementById("createToDoButton");
         createToDoButton.addEventListener("click", function () {
             console.log("ToDo追加ボタンが押下されたよ");
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // バリデーションが通ったらPOSTして、ToDo新規作成モーダルを閉じる
+            let validated = true
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    if (!form.checkValidity()) {
+                        validated = false
+                    }
+
+                    form.classList.add('was-validated')
+                })
+            if (validated) {
+                postToDo()
+            }
         });
 
         // ToDo完了確認ボタン押下時の処理
@@ -176,6 +204,7 @@
         const completeToDoButton = document.getElementById("completeToDoButton");
         completeToDoButton.addEventListener("click", function () {
             console.log(`${targetId}のToDo完了ボタンが押下されたよ`);
+            deleteToDo(targetId)
         });
     })();
 
@@ -187,6 +216,47 @@
             defaultDate: new Date().toISOString()
         }
     );
+
+
+
+
+    function postToDo() {
+        //POSTリクエスト（通信）
+        const title = document.getElementById('titleInput').value
+        const memo = document.getElementById('memoTextarea').value
+        const deadline = document.getElementById('deadlineDatetimepickerInput').value
+
+        const data = {
+            "title": title,
+            "memo": memo,
+            "deadline": deadline
+        }
+        console.log(data)
+        axios.post("http://localhost:8080/todo", data)
+            .then(() => {
+                location.reload()
+            })
+            .catch(err => {
+                console.log("err:", err);
+                alert("追加に失敗しました。時間をおいてやり直してください。")
+            });
+    }
+
+    function deleteToDo(id) {
+        const data = {
+            "id": id
+        }
+        console.log(data)
+        axios.delete("http://localhost:8080/todo", {data})
+            .then(() => {
+                location.reload()
+            })
+            .catch(err => {
+                console.log("err:", err);
+                alert("更新に失敗しました。時間をおいてやり直してください。")
+            });
+
+    }
 </script>
 
 <style>
