@@ -5,6 +5,7 @@ package controllers
 import (
 	"app/models"
 	"encoding/json"
+	"fmt"
 	"time"
 
 	beego "github.com/beego/beego/v2/server/web"
@@ -33,17 +34,22 @@ func (c *ToDoController) Get() {
 	c.ServeJSON()
 }
 
-func (c *ToDoController) Create() {
+func (c *ToDoController) Post() {
+	fmt.Println("Post")
 	// CreateRequestBodyにパースする
 	var createRequestBody CreateRequestBody
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &createRequestBody); err != nil {
-		c.Ctx.WriteString("json parse error")
+		c.Ctx.ResponseWriter.WriteHeader(400)
+		c.Ctx.Output.SetStatus(500)
+		c.Data["json"] = "json parse error"
+		c.ServeJSON()
 		return
 	}
+	fmt.Println("createRequestBody", createRequestBody)
 
 	// YYYY-MM-DDTHH:MM:SSZZZZ形式の文字列をtime.Timeにパース
 	deadline, _ := time.Parse(
-		"2006-01-02T15:04:05Z07:00",
+		"2006/01/02 15:04",
 		createRequestBody.Deadline,
 	)
 
@@ -58,12 +64,18 @@ func (c *ToDoController) Create() {
 }
 
 func (c *ToDoController) Delete() {
+	fmt.Println("Delete")
 	// DeleteRequestBodyにパースする
 	var deleteRequestBody DeleteRequestBody
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &deleteRequestBody); err != nil {
-		c.Ctx.WriteString("json parse error")
+		c.Ctx.ResponseWriter.WriteHeader(400)
+		c.Ctx.Output.SetStatus(500)
+		c.Data["json"] = "json parse error"
+		c.ServeJSON()
 		return
 	}
+	fmt.Println("deleteRequestBody", deleteRequestBody)
+
 	models.DeleteToDo(deleteRequestBody.ID)
 
 	c.ServeJSON()

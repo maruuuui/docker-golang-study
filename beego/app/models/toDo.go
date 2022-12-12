@@ -65,7 +65,10 @@ func GetToDo(id string) (toDo ToDo) {
 
 // Delete
 func DeleteToDo(id string) {
-	db.Delete(&ToDo{}, id)
+	toDo := ToDo{
+		ID: id,
+	}
+	db.Delete(&toDo)
 }
 
 func setupDB() (db *gorm.DB) {
