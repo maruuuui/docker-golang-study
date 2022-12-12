@@ -63,20 +63,13 @@ func (c *ToDoController) Post() {
 	c.ServeJSON()
 }
 
+// @router /todo/:id [delete]
 func (c *ToDoController) Delete() {
 	fmt.Println("Delete")
-	// DeleteRequestBodyにパースする
-	var deleteRequestBody DeleteRequestBody
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &deleteRequestBody); err != nil {
-		c.Ctx.ResponseWriter.WriteHeader(400)
-		c.Ctx.Output.SetStatus(500)
-		c.Data["json"] = "json parse error"
-		c.ServeJSON()
-		return
-	}
-	fmt.Println("deleteRequestBody", deleteRequestBody)
+	id := c.Ctx.Input.Param(":id")
+	fmt.Println("deleteRequest", id)
 
-	models.DeleteToDo(deleteRequestBody.ID)
+	models.DeleteToDo(id)
 
 	c.ServeJSON()
 }

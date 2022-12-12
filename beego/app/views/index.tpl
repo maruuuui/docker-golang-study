@@ -243,11 +243,7 @@
     }
 
     function deleteToDo(id) {
-        const data = {
-            "id": id
-        }
-        console.log(data)
-        axios.delete("http://localhost:8080/todo", {data})
+        axios.delete("http://localhost:8080/todo/" + id)
             .then(() => {
                 location.reload()
             })
