@@ -49,10 +49,12 @@ func (c *ToDoController) Post() {
 	}
 	fmt.Println("createRequestBody", createRequestBody)
 
-	// YYYY/MM/DD HH:MM形式の文字列をtime.Timeにパース
-	deadline, _ := time.Parse(
+	// YYYY/MM/DD HH:MM形式の文字列をタイムゾーンを指定してtime.Timeにパース
+	jst, _ := time.LoadLocation("Asia/Tokyo")
+	deadline, _ := time.ParseInLocation(
 		"2006/01/02 15:04",
 		createRequestBody.Deadline,
+		jst,
 	)
 
 	toDo := models.CreateToDo(
