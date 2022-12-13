@@ -257,6 +257,6 @@
 
 <style>
     .minigrid-card {
-        width: 200px;
+        width: 210px;
     }
 </style>
