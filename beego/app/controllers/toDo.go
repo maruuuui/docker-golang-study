@@ -41,7 +41,6 @@ func (c *ToDoController) Post() {
 	// CreateRequestBodyにパースする
 	var createRequestBody CreateRequestBody
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &createRequestBody); err != nil {
-		c.Ctx.ResponseWriter.WriteHeader(400)
 		c.Ctx.Output.SetStatus(500)
 		c.Data["json"] = "json parse error"
 		c.ServeJSON()
@@ -51,11 +50,18 @@ func (c *ToDoController) Post() {
 
 	// YYYY/MM/DD HH:MM形式の文字列をタイムゾーンを指定してtime.Timeにパース
 	jst, _ := time.LoadLocation("Asia/Tokyo")
-	deadline, _ := time.ParseInLocation(
+	deadline, err := time.ParseInLocation(
 		"2006/01/02 15:04",
 		createRequestBody.Deadline,
 		jst,
 	)
+
+	if err != nil {
+		c.Ctx.Output.SetStatus(400)
+		c.Data["json"] = "datetime parse error"
+		c.ServeJSON()
+		return
+	}
 
 	toDo := models.CreateToDo(
 		createRequestBody.Title,

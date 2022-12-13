@@ -5,11 +5,6 @@ go 1.19
 require github.com/beego/beego/v2 v2.0.1
 
 require (
-	gorm.io/driver/mysql v1.4.4
-	gorm.io/gorm v1.24.2
-)
-
-require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
@@ -35,4 +30,6 @@ require (
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/protobuf v1.23.0 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
+	gorm.io/driver/mysql v1.4.4
+	gorm.io/gorm v1.24.2
 )
