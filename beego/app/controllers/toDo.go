@@ -27,6 +27,7 @@ type DeleteRequestBody struct {
 	ID string `json:"id"`
 }
 
+// @router / [get]
 func (c *ToDoController) Get() {
 	var toDoList = models.GetAllToDo()
 
@@ -34,6 +35,7 @@ func (c *ToDoController) Get() {
 	c.ServeJSON()
 }
 
+// @router / [post]
 func (c *ToDoController) Post() {
 	fmt.Println("Post")
 	// CreateRequestBodyにパースする
@@ -47,7 +49,7 @@ func (c *ToDoController) Post() {
 	}
 	fmt.Println("createRequestBody", createRequestBody)
 
-	// YYYY-MM-DDTHH:MM:SSZZZZ形式の文字列をtime.Timeにパース
+	// YYYY/MM/DD HH:MM形式の文字列をtime.Timeにパース
 	deadline, _ := time.Parse(
 		"2006/01/02 15:04",
 		createRequestBody.Deadline,
@@ -63,7 +65,7 @@ func (c *ToDoController) Post() {
 	c.ServeJSON()
 }
 
-// @router /todo/:id [delete]
+// @router /:id [delete]
 func (c *ToDoController) Delete() {
 	fmt.Println("Delete")
 	id := c.Ctx.Input.Param(":id")

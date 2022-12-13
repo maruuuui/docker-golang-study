@@ -8,5 +8,8 @@ import (
 
 func init() {
 	beego.Router("/", &controllers.MainController{})
-	beego.Include(&controllers.ToDoController{})
+	ns := beego.NewNamespace("/todo",
+		beego.NSInclude(&controllers.ToDoController{}),
+	)
+	beego.AddNamespace(ns)
 }
