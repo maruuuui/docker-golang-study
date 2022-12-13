@@ -54,10 +54,10 @@
                 <div class="card-body">
                     <h5 class="card-title">{{.Title}}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">期限:{{.Deadline}}</h6>
-                    <p class="card-text">{{.Memo}}.</p>
+                    <p class="card-text">{{.Memo}}</p>
                     <!-- ToDo完了確認モーダル(#askCompleteToDoModal)を表示するボタン -->
-                    <button value="{{.ID}}" class="btn btn-primary askCompleteToDoModalButton" type="submit"
-                        data-bs-toggle="modal" data-bs-target="#askCompleteToDoModal">完了！</button>
+                    <button  value="{{.ID}},{{.Title}}"
+                        class="btn btn-primary askCompleteToDoModalButton">完了！</button>
                 </div>
             </div>
         </div>
@@ -119,8 +119,9 @@
                     <h5 class="modal-title" id="askCompleteToDoModalLabel">確認</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    完了しますか？
+                <div class="modal-body" id="confirmText">
+                    <!-- タスク完了ボタン押下時に文言を差し替える -->
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="completeToDoButton">完了！</button>
@@ -128,20 +129,20 @@
             </div>
         </div>
     </div>
-
-
-
 </body>
 
 </html>
 <script type="module">
     // 完了リクエストをするToDoのID
     let targetId;
-
+    // 完了リクエストをするToDoのタイトル
+    let todoTitle
 
     (function () {
         // ToDo新規作成モーダル
         let createToDoModal = new bootstrap.Modal(document.getElementById('createToDoModal'), {})
+        // ToDo完了確認モーダル
+        let askCompleteToDoModal = new bootstrap.Modal(document.getElementById('askCompleteToDoModal'), {})
 
         // minigridの初期設定
         // https://github.com/hnqlv/minigrid
@@ -193,9 +194,16 @@
         const askCompleteToDoModalButtons = document.getElementsByClassName("askCompleteToDoModalButton");
         for (let index = 0; index < askCompleteToDoModalButtons.length; index++) {
             const askCompleteToDoModalButton = askCompleteToDoModalButtons[index];
+            const rawValue = askCompleteToDoModalButton.value
+            const values = rawValue.split(/,(.*)/s) // valueの文字列をidとタイトルに分割
+            targetId = values[0]
+            todoTitle = values[1]
             askCompleteToDoModalButton.addEventListener("click", function () {
-                targetId = askCompleteToDoModalButton.value
-                console.log(`${targetId}のToDo完了確認ボタンが押下されたよ`);
+                console.log(`id:${targetId},title:${todoTitle}のToDo完了確認ボタンが押下されたよ`);
+                const confirmTextElement = document.getElementById("confirmText");
+                confirmTextElement.textContent = `「${todoTitle}」を完了しますか？`
+                // ToDo完了確認モーダルを開く
+                askCompleteToDoModal.show()
             });
 
         }
