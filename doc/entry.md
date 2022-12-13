@@ -7,10 +7,9 @@
 
 ## 動作環境
 
+- Windows 10 または macOS Ventura バージョン13.0.1
 - docker-compose
 - VSCode
-
-完成したアプリはwindows,macの両方で動作することを確認済みです。
 
 ## 環境構築
 
@@ -37,7 +36,7 @@ PCの環境を汚すことなく環境構築を行いました。
 
 (各ファイルの中身を解説)
 
-## イメージ作成
+### イメージ作成
 
 以下のコマンドを実行してイメージを作成し、beegoのプロジェクトを作成します。
 
@@ -50,7 +49,7 @@ docker-compose run app bee new app
 docker-compose run app sh -c "cd app && go get app"
 ```
 
-## コンテナの起動と動作確認
+### コンテナの起動と動作確認
 
 以下のコマンドを実行してコンテナを起動します。
 
@@ -61,3 +60,21 @@ docker-compose up
 (ログの一部を貼る)
 
 (8080をブラウザから見た画像を貼る)
+
+### beegoのコンテナへリモート接続
+
+beegoのコンテナにリモート接続するために必要なのが以下の拡張機能(Dev Containers)です。  
+まずこれをインストール。
+![Dev Containers](./image/拡張機能_Dev_Containers.png)
+拡張機能をインストール後、ウインドウ左下の緑色のマークをクリック。
+![Dev Containers](./image/リモート接続1.png)
+`Open Folder in Container...`を選択して……
+![Dev Containers](./image/リモート接続2.png)
+`beego`のプロジェクトがあるディレクトリを選択します。
+![Dev Containers](./image/リモート接続3.png)
+すると、コンテナ内のファイルを直接編集することができるようになります。
+この中で拡張機能をインストールしてもローカルには影響がないため、安心して開発できます。
+![Dev Containers](./image/リモート接続4.png)
+自分は以下の拡張機能をインストールしました。  
+自動フォーマットなど便利機能が搭載されていて便利です。
+![Dev Containers](./image/リモート接続5.png)
