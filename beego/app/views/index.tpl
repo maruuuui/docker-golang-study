@@ -9,24 +9,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
 
     <!-- minigrid -->
-    <script src="/static/js/minigrid.min.js"></script>
+    <script src="https://unpkg.com/minigrid@3.1.1/dist/minigrid.min.js"></script>
     <!-- end minigrid -->
 
     <!-- Bootstrap -->
-    <script src="/static/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- end Bootstrap -->
 
-
-    <!-- Font awesome is not required provided you change the icon options -->
+    <!-- Font awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/solid.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/fontawesome.min.js"></script>
-    <!-- end FA -->
+    <!-- end Font awesome -->
 
     <!-- TempusDominus -->
-    <script src="/static/js/tempus-dominus.js"></script>
-    <link rel="stylesheet" href="static/css/tempus-dominus.css">
+    <script src="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/js/tempus-dominus.js"></script>
+
+    <link href="
+      https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/css/tempus-dominus.css" rel="stylesheet" />
     <!-- end TempusDominus -->
 
     <!-- axios -->
@@ -56,8 +60,7 @@
                     <h6 class="card-subtitle mb-2 text-muted">期限:{{.Deadline}}</h6>
                     <p class="card-text">{{.Memo}}</p>
                     <!-- ToDo完了確認モーダル(#askCompleteToDoModal)を表示するボタン -->
-                    <button  value="{{.ID}},{{.Title}}"
-                        class="btn btn-primary askCompleteToDoModalButton">完了！</button>
+                    <button value="{{.ID}},{{.Title}}" class="btn btn-primary askCompleteToDoModalButton">完了！</button>
                 </div>
             </div>
         </div>
@@ -121,7 +124,7 @@
                 </div>
                 <div class="modal-body" id="confirmText">
                     <!-- タスク完了ボタン押下時に文言を差し替える -->
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="completeToDoButton">完了！</button>
@@ -225,9 +228,6 @@
         }
     );
 
-
-
-
     function postToDo() {
         //POSTリクエスト（通信）
         const title = document.getElementById('titleInput').value
@@ -266,5 +266,15 @@
 <style>
     .minigrid-card {
         width: 210px;
+    }
+
+    .datepicker-days th.dow:first-child,
+    .datepicker-days td:first-child {
+        color: #f00;
+    }
+
+    .datepicker-days th.dow:last-child,
+    .datepicker-days td:last-child {
+        color: #00f;
     }
 </style>
